@@ -70,6 +70,8 @@ Node::SharedPtr Node::Get(sdf::ElementPtr sdf, std::string node_name)
     if (ns.empty() || ns[0] != '/') {
       ns = '/' + ns;
     }
+    arguments.push_back(RCL_SHORT_REMAP_FLAG);
+    arguments.push_back("__ns:=" + ns);
   }
 
   // Get list of arguments from SDF
