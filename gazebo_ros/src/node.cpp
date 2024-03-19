@@ -70,6 +70,7 @@ Node::SharedPtr Node::Get(sdf::ElementPtr sdf, std::string node_name)
     if (ns.empty() || ns[0] != '/') {
       ns = '/' + ns;
     }
+    arguments.push_back(RCL_ROS_ARGS_FLAG);
     arguments.push_back(RCL_SHORT_REMAP_FLAG);
     arguments.push_back("__ns:=" + ns);
   }
@@ -89,7 +90,9 @@ Node::SharedPtr Node::Get(sdf::ElementPtr sdf, std::string node_name)
   if (sdf->HasElement("remapping")) {
     sdf::ElementPtr argument_sdf = sdf->GetElement("remapping");
 
-    arguments.push_back(RCL_ROS_ARGS_FLAG);
+    if (arguments.empty()) {
+      arguments.push_back(RCL_ROS_ARGS_FLAG);
+    }
     while (argument_sdf) {
       std::string argument = argument_sdf->Get<std::string>();
       arguments.push_back(RCL_REMAP_FLAG);
